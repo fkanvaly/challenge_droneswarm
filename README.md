@@ -7,7 +7,7 @@
 L'environnement de simultaion a été fait avec Gazebo + ROS Melodic (Ubuntu 18.04 LTS).
 Par defaut la version complete de ROS vient avec Gazebo. Nous suggerons donc d'installer la version complete en suivant les instructions suivantes:
 
-1. Configure your Ubuntu repositories
+1. Configurer Ubuntu
 
 run:
 ```
@@ -61,7 +61,7 @@ catkin build
 ```
 
 
-Après la compilation de nouveaux dossier se créeront et le dossier simulation_ws devrait être organisé comme suit
+Après la compilation de nouveaux dossiers se créeront et le dossier simulation_ws devrait être organisé comme suit
 
 ```
 simulation_ws
@@ -74,7 +74,7 @@ simulation_ws
 toujours dans le dossier simulation_ws entrer la commande:
 `source devel/setup.bash`
 
-Maintenant toute les variables du système devrait être installée pour lancer demarer il vous reste juste a entrer:
+Maintenant toutes les variables du système devraient être installées pour lancer demarer il vous reste juste à entrer:
 ```
 roslaunch sjtu_drone challenge.launch
 ```
