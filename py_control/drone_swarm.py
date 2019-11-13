@@ -45,7 +45,7 @@ class DroneSwarm():
         for i in L: self.swarm[i].down(speed)
 
     def foreward(self, L, speed):
-        for i in L: self.swarm[i].forward(speed)
+        for i in L: self.swarm[i].foreward(speed)
 
     def backward(self, L, speed):
         for i in L: self.swarm[i].backward(speed)
