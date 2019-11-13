@@ -12,8 +12,14 @@ Par defaut la version complete de ROS vient avec Gazebo. Nous suggerons donc d'i
 run:
 ```
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+```
+```
 sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+```
+```
 curl -sSL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC1CF6E31E6BADE8868B172B4F42ED6FBAB17C654' | sudo apt-key add -
+```
+```
 sudo apt update
 ```
 
@@ -53,6 +59,7 @@ une fois ROS installer, il suffira juste d'aller dans le dossier **simulation_ws
 cd simulation_ws
 catkin build
 ```
+
 
 Après la compilation de nouveaux dossier se créeront et le dossier simulation_ws devrait être organisé comme suit
 
