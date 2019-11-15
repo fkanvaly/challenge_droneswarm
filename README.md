@@ -45,11 +45,10 @@ echo "source /opt/ros/melodic/setup.bash" >> ~ / .bashrc
 source ~ / .bashrc
 ```
 
-4. Installer les packages python 
-
+4. Il faut enfin configurer un environnement Python permettant d'intéragir avec ROS, avec
 ```
-sudo pip3 install rospkg catkin_pkg
-sudo apt-get install python-catkin-tools python3-dev python3-numpy
+sudo apt-get install python3-dev
+sudo pip install -r requirements.txt
 ```
 
 ## Compiler notre environnement 
