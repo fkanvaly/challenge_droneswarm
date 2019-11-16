@@ -110,10 +110,10 @@ class Drone():
         else:
             print("%s fail to connect to %s/land"%self.name)
 
-    def linearVelocity(self, v):
+    def set_linear_velocity(self, v):
         self.cmd.linear.x = v[0];  self.cmd.linear.y = v[1];  self.cmd.linear.z = v[2]
 
-    def angularVelocity(self, v):
+    def set_angular_velocity(self, v):
         self.cmd.angular.x = v[0];  self.cmd.angular.y = v[1];  self.cmd.angular.z = v[2]
 
     def up(self, speed):
