@@ -51,7 +51,7 @@ sudo apt-get install python3-dev
 sudo pip3 install -r requirements.txt
 ```
 
-## Compiler notre environnement 
+## Compiler notre environnement et lancer la simulation
 
 Une fois ROS installé, il suffira juste d'aller dans le dossier **simulation_ws** et compiler l'environnement.
 
@@ -71,12 +71,18 @@ simulation_ws
     +-- src
 ```
 
-toujours dans le dossier **simulation_ws** entrer la commande:
+
+Toujours dans le dossier **simulation_ws** entrer la commande:
 `source devel/setup.bash`
 
-Maintenant toutes les variables du système devraient être installées pour lancer demarer il vous reste juste à entrer:
+Maintenant toutes les variables du système devraient être installées pour lancer la simulation il vous reste juste à entrer:
 ```
 roslaunch sjtu_drone simple.launch
 ```
 
+## Piloter les drones depuis Python
+
+Le dossier **py_control** contient une interface Python permettant d'intéragir avec l'environnement de simulation dans lequel les drones évoluent. Deux classes sont fournies : ``Drone`` et ``DroneSwarm``, la seconde étant devant suffire pour se familiariser avec l'environnement.
+
+Le fichier **exemple.py** fournit un exemple basique démontrant comment piloter un essaim de drones. Lancez Gazebo avec ``roslaunch sjtu_drone simple.launch``, mettez en marche la simulation en cliquant sur le bouton play en bas de la fenêtre qui s'ouvre, puis exécutez ``python3 exemple.py``. Notez bien dans **exemple.py** l'utilisation nécessaire de ``turn_on`` et ``turn_off`` avant et après l'envoi de toute commande. Pour plus de détails sur l'interface des classes, se référer aux fichiers **drone.py** et **drone_swarm.py**.
 
