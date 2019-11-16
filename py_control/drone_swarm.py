@@ -118,8 +118,6 @@ class DroneSwarm():
         else:
             return getattr(self.drones[drone_id], attr)
 
-
-
 if __name__ == "__main__":
     swarm = DroneSwarm()
     swarm.take_off()

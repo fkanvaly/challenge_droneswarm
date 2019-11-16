@@ -3,7 +3,7 @@
 <model name='sjtu_drone1'>
    <!-- model plugins should be put in the front of the sensor plugins! 
 	This might be a bug~
-	-->
+	--> 
     <plugin name='simple_drone1' filename='libplugin_drone.so'>
         <droneName>drone1</droneName>
         <bodyName>base_link1</bodyName>
@@ -95,6 +95,7 @@
 	<update_rate>100</update_rate>
 	<pose> 0.5 0 0.3 0 1.570796327 3.141592653 </pose>
 	<plugin name='ros_sonar' filename='libplugin_ros_sonar.so'>
+	<droneName>drone1</droneName>
 	</plugin> 
 	<sonar>
 		<min>0</min>

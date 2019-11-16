@@ -94,6 +94,7 @@
 	<update_rate>100</update_rate>
 	<pose> 0.5 0 0.3 0 1.570796327 3.141592653 </pose>
 	<plugin name='ros_sonar' filename='libplugin_ros_sonar.so'>
+	<droneName>drone4</droneName>
 	</plugin> 
 	<sonar>
 		<min>0</min>

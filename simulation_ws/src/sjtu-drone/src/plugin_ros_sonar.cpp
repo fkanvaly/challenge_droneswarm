@@ -2,7 +2,18 @@
 //#include "gazebo/sensors/ImuSensor.hh"
 #include "gazebo/sensors/SonarSensor.hh"
 namespace gazebo{
-void RosSonarPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr /*_sdf*/){
+void RosSonarPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf){
+
+    //initialize 
+    //load parameters
+    std::string drone_name_;
+    if (!_sdf->HasElement("droneName"))
+        drone_name_ = "drone";
+    else
+        drone_name_ = _sdf->GetElement("droneName")->Get<std::string>();
+        
+    topicName = "/"+drone_name_+"/sonar";
+
     // Make sure the ROS node for Gazebo has already been initialized
     if (!ros::isInitialized())
     {
