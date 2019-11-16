@@ -16,6 +16,8 @@ import threading
 
 
 class Drone():
+    command_attempts = 3
+
     def __init__(self, i):
         self.name = "drone" + str(i)
 
@@ -85,7 +87,6 @@ class Drone():
                 connections = self.vel_publisher.get_num_connections()
                 if connections > 0:
                     self.vel_publisher.publish(self.cmd)
-                    time.sleep(0.01)
                 else:
                     print("%s fail to publish %s/cmd_vel"%(self.name,self.name))
             time.sleep(0.1)
@@ -106,7 +107,8 @@ class Drone():
         """
         connections = self.takeoff_publisher.get_num_connections()
         if connections > 0:
-            self.takeoff_publisher.publish(Empty())
+            for i in range(self.command_attempts):
+                self.takeoff_publisher.publish(Empty())
             self.is_flying = True
             print("%s takeoff cmd published" % self.name)
         else:
@@ -120,11 +122,12 @@ class Drone():
         """
         connections = self.land_publisher.get_num_connections()
         if connections > 0:
-            self.land_publisher.publish(Empty())
+            for i in range(self.command_attempts):
+                self.land_publisher.publish(Empty())
             print("%s land cmd published"%self.name)
             self.is_flying=False
         else:
-            print("%s fail to connect to %s/land"%self.name)
+            print("%s fail to connect to %s/land"%(self.name, self.name))
 
     def set_linear_velocity(self, v):
         self.cmd.linear.x = v[0]
