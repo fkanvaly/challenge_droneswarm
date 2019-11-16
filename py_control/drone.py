@@ -160,4 +160,4 @@ class Drone():
         Pass in an int from 0-100.
         """
         print('counter_clockwise(val=%d)' % speed)
-        self.cmd.angular.z = self.angularV_max * speed / 100
+        self.cmd.angular.z = - self.angularV_max * speed / 100
