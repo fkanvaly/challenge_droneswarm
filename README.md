@@ -1,11 +1,11 @@
 # CHALLENGE ESSAIM DE DRONE
 
-# Envirennemnt de simulation
+# Environnement de simulation
 
 ## Requirements (ROS Melodic [vient avec gazebo]) #
 
-L'environnement de simultaion a été fait avec Gazebo + ROS Melodic (Ubuntu 18.04 LTS).
-Par defaut la version complete de ROS vient avec Gazebo. Nous suggerons donc d'installer la version complete en suivant les instructions suivantes:
+L'environnement de simulation a été fait avec Gazebo + ROS Melodic (Ubuntu 18.04 LTS).
+Par defaut la version complete de ROS vient avec Gazebo. Nous suggérons donc d'installer la version complète en suivant les instructions suivantes:
 
 1. Configurer Ubuntu
 
@@ -25,7 +25,7 @@ sudo apt update
 
 1. Installation 
 
-Installation complète de ros: (Recommandé): 
+Installation complète de ros (recommandé): 
 ```
 sudo apt-get install ros-melodic-desktop
 ``` 
@@ -38,22 +38,22 @@ sudo rosdep init
 update rosdep
 ```
 
-3. Configuration de des variable du systeme
+3. Configuration des variables système
 
 ```
 echo "source /opt/ros/melodic/setup.bash" >> ~ / .bashrc
 source ~ / .bashrc
 ```
 
-4. Installer les package python 
-
+4. Il faut enfin configurer un environnement Python permettant d'intéragir avec ROS, avec
 ```
-sudo pip3 install rospkg catkin_pkg
-sudo apt-get install python-catkin-tools python3-dev python3-numpy
+sudo apt-get install python3-dev
+sudo pip3 install -r requirements.txt
 ```
 
 ## Compiler notre environnement 
-une fois ROS installer, il suffira juste d'aller dans le dossier **simulation_ws** et compiler l'environnement.
+
+Une fois ROS installé, il suffira juste d'aller dans le dossier **simulation_ws** et compiler l'environnement.
 
 ```
 cd simulation_ws
@@ -71,12 +71,12 @@ simulation_ws
     +-- src
 ```
 
-toujours dans le dossier simulation_ws entrer la commande:
+toujours dans le dossier **simulation_ws** entrer la commande:
 `source devel/setup.bash`
 
 Maintenant toutes les variables du système devraient être installées pour lancer demarer il vous reste juste à entrer:
 ```
-roslaunch sjtu_drone challenge.launch
+roslaunch sjtu_drone simple.launch
 ```
 
 

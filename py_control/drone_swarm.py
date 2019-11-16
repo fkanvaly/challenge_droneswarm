@@ -3,77 +3,123 @@ import numpy as np
 import cv2
 
 class DroneSwarm():
+    """
+    Class used to manager a drone swarm, allowing to drive each of the
+    drones individually. The different command methods can either drive a
+    single drone (by specifying the ``drone`` argument, an integer between
+    0 and the total number of drones, excluded), or the whole swarm (by leaving
+    ``drone`` to None).
+    """
+
+    # Number of drone in the swarm, should be coherent with context.world
+    drones_number = 5
 
     def __init__(self):
-        self.swarm = [Drone(i) for i in range(1,6)]
-        self.swarmView = np.zeros((360*2, 640*3,3))
+        self.drones = [Drone(i) for i in range(1, self.drones_number+1)]
+        self.swarm_view = np.zeros((360*2, 640*3,3))
         
-    def get_swarmView(self):
-        line1 = np.hstack((np.hstack((self.swarm[0].view, self.swarm[1].view)), self.swarm[2].view))
-        line2 = np.hstack((np.hstack((self.swarm[2].view, self.swarm[3].view)), np.zeros((360, 640,3), np.uint8)))
-        self.swarmView= np.vstack((line1,line2))
-        return self.swarmView
+    def get_swarm_view(self):
+        """
+        Return the view of the whole swarm as a single image.
+        """
+        line1 = np.hstack((np.hstack((self.drones[0].view, self.drones[1].view)), self.drones[2].view))
+        line2 = np.hstack((np.hstack((self.drones[2].view, self.drones[3].view)), np.zeros((360, 640,3), np.uint8)))
+        self.swarm_view = np.vstack((line1,line2))
+        return self.swarm_view
     
-    def getView(self, L):
-        """return a list of each drone view"""
-        return [ self.swarm[i].view for i in L]
+    def get_view(self, drone=None):
+        """
+        Return a list of each drone view.
+        """
+        return self.__swarm_get("view", drone)
 
-    def turn_off(self, L):
-        for i in L: self.swarm[i].turn_off()
+    def get_sonar(self, drone=None):
+        if drone is None:
+            return [drone.sonar.range for drone in self.drones]
+        else:
+            return self.drones[drone].sonar.range
 
-    def take_off(self, L):
-        for i in L: self.swarm[i].take_off()
+    def get_linear_velocity(self, drone=None):
+        convert = lambda v : [getattr(v.linear, c) for c in 'xyz']
+        if drone is None:
+            return [convert(d.vel) for d in self.drones]
+        else:
+            return convert(self.drones[drone].vel)
+
+    def get_angular_velocity(self, drone=None):
+        convert = lambda v : [getattr(v.angular, c) for c in 'xyz']
+        if drone is None:
+            return [convert(d.vel) for d in self.drones]
+        else:
+            return convert(self.drones[drone].vel)
+
+    def turn_off(self, drone=None):
+        self.__swarm_do("turn_off", drone)
+
+    def take_off(self, drone=None):
+        self.__swarm_do("take_off", drone)
     
-    def land(self, L): 
-        for i in L: self.swarm[i].land()
+    def land(self, drone=None): 
+        self.__swarm_do("land", drone)
 
-    def stop(self, L):
-        for i in L: self.swarm[i].stop()
+    def stop(self, drone=None):
+        self.__swarm_do("stop", drone)
 
-    def linearVelocity(self, L, lv):
+    def set_linear_velocity(self, lv, drone=None):
         """lv is a array [v.x, v.y, v.z]"""
-        for i in L: self.swarm[i].linearVelocity(lv)
+        self.__swarm_do("set_linear_velocity", drone, lv)
 
-    def angularVelocity(self, L, av):
+    def set_angular_velocity(self, av, drone=None):
         """av is a array [w.x, w.y, w.z]"""
-        for i in L: self.swarm[i].angularVelocity(av)
+        self.__swarm_do("set_angular_velocity", drone, av)
 
-    def up(self, L, speed):
-        for i in L: self.swarm[i].up(speed)
+    def up(self, speed, drone=None):
+        self.__swarm_do("up", drone, speed)
 
-    def down(self, L, speed):
-        for i in L: self.swarm[i].down(speed)
+    def down(self, speed, drone=None):
+        self.__swarm_do("down", drone, speed)
 
-    def foreward(self, L, speed):
-        for i in L: self.swarm[i].foreward(speed)
+    def forward(self, speed, drone=None):
+        self.__swarm_do("forward", drone, speed)
 
-    def backward(self, L, speed):
-        for i in L: self.swarm[i].backward(speed)
+    def backward(self, speed, drone=None):
+        self.__swarm_do("backward", drone, speed)
 
-    def right(self, L, speed):
-        for i in L: self.swarm[i].right(speed)
+    def right(self, speed, drone=None):
+        self.__swarm_do("right", drone, speed)
 
-    def left(self, L, speed):
-        for i in L: self.swarm[i].left(speed)
+    def left(self, speed, drone=None):
+        self.__swarm_do("left", drone, speed)
 
-    def clockwise(self, L, speed):
-        for i in L: self.swarm[i].clockwise(speed)
+    def clockwise(self, speed, drone=None):
+        self.__swarm_do("clockwise", drone, speed)
 
-    def counter_clockwise(self, L, speed):
-        for i in L: self.swarm[i].counter_clockwise(speed)
+    def counter_clockwise(self, speed, drone=None):
+        self.__swarm_do("counter_clockwise", drone, speed)
+
+    def __swarm_do(self, f, drone_id=None, *args, **kwargs):
+        """
+        If drone_id is None then call f for each of the swarm drone, else
+        call self.f with drone_id argument.
+        """
+        if drone_id is None:
+            for drone in self.drones:
+                getattr(drone, f)(*args, **kwargs)
+        else:
+            getattr(self.drones[drone_id], f)(*args, **kwargs)
+
+    def __swarm_get(self, attr, drone_id=None):
+        """
+        If drone_id is None then return the list of the drones ``attr``
+        attribute, else return the attribute of drone_id.
+        """
+        if drone_id is None:
+            return [getattr(drone, attr) for drone in self.drones]
+        else:
+            return getattr(self.drones[drone_id], attr)
 
 
 
 if __name__ == "__main__":
     swarm = DroneSwarm()
-    i = -1
-    try:
-        while(1):
-            cv2.imshow('img',swarm.get_swarmView())
-            k = cv2.waitKey(1)
-            if k==27:    # Esc key to stop
-                break
-            elif k==-1:  # yaw ccw
-                continue 
-    finally:
-        swarm.turn_off(i)
+    swarm.take_off()
