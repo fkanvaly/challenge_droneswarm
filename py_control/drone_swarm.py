@@ -3,19 +3,32 @@ import numpy as np
 import cv2
 
 class DroneSwarm():
+    """
+    Class used to manager a drone swarm, allowing to drive each of the
+    drones individually. The different command methods can either drive a
+    single drone (by specifying the ``drone`` argument, an integer between
+    1 and the total number of drones, included), or the whole swarm (by leaving
+    ``drone`` to None).
+    """
+    drones_number = 5
 
-    def __init__(self, number):
-        self.drones = [Drone(i) for i in range(1, number+1)]
+    def __init__(self):
+        self.drones = [Drone(i) for i in range(1, self.drones_number+1)]
         self.swarm_view = np.zeros((360*2, 640*3,3))
         
     def get_swarm_view(self):
+        """
+        Return the view of the whole swarm as a single image.
+        """
         line1 = np.hstack((np.hstack((self.drones[0].view, self.drones[1].view)), self.drones[2].view))
         line2 = np.hstack((np.hstack((self.drones[2].view, self.drones[3].view)), np.zeros((360, 640,3), np.uint8)))
         self.swarm_view = np.vstack((line1,line2))
         return self.swarm_view
     
     def get_view(self, drone=None):
-        """return a list of each drone view"""
+        """
+        Return a list of each drone view.
+        """
         if drone is None:
             return [drone.view for drone in self.drones]
         else:
@@ -79,7 +92,7 @@ class DroneSwarm():
 
 
 if __name__ == "__main__":
-    swarm = DroneSwarm(5)
+    swarm = DroneSwarm()
     i = -1
     try:
         while(1):
