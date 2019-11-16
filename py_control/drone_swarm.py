@@ -10,6 +10,8 @@ class DroneSwarm():
     0 and the total number of drones, excluded), or the whole swarm (by leaving
     ``drone`` to None).
     """
+
+    # Number of drone in the swarm, should be coherent with context.world
     drones_number = 5
 
     def __init__(self):
@@ -120,14 +122,4 @@ class DroneSwarm():
 
 if __name__ == "__main__":
     swarm = DroneSwarm()
-    i = -1
-    try:
-        while(1):
-            cv2.imshow('Swarm view', swarm.get_swarm_view())
-            k = cv2.waitKey(1)
-            if k==27:    # Esc key to stop
-                break
-            elif k==-1: 
-                continue 
-    finally:
-        swarm.turn_off()
+    swarm.take_off()

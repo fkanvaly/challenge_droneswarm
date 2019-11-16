@@ -48,7 +48,7 @@ source ~ / .bashrc
 4. Il faut enfin configurer un environnement Python permettant d'intéragir avec ROS, avec
 ```
 sudo apt-get install python3-dev
-sudo pip install -r requirements.txt
+sudo pip3 install -r requirements.txt
 ```
 
 ## Compiler notre environnement 
@@ -76,7 +76,7 @@ toujours dans le dossier **simulation_ws** entrer la commande:
 
 Maintenant toutes les variables du système devrait être installée. Pour lancer il vous reste juste à entrer:
 ```
-roslaunch sjtu_drone challenge.launch
+roslaunch sjtu_drone simple.launch
 ```
 
 
