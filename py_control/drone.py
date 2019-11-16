@@ -28,10 +28,10 @@ class Drone():
         self.reset_publisher = rospy.Publisher("/drone%s/reset"%i, Empty, queue_size=1)
         
         """Initialise subscriber"""
-        rospy.Subscriber("/drone%s/gt_vel"%i,Twist, self.read_vel)
-        rospy.Subscriber("/drone%s/sonar"%i, Range, self.read_sonar)
+        rospy.Subscriber("/drone%s/gt_vel"%i,Twist, self.__read_vel)
+        rospy.Subscriber("/drone%s/sonar"%i, Range, self.__read_sonar)
         self.subscriber = rospy.Subscriber("/drone%s/front_camera/image_raw/compressed"%i,
-                                            CompressedImage, self.callback,  queue_size = 1)
+                                            CompressedImage, self.__camera_callback,  queue_size = 1)
         
         self.cmd = Twist()
         self.cmd.linear.x = 0;  self.cmd.linear.y = 0;  self.cmd.linear.z = 0
@@ -49,14 +49,14 @@ class Drone():
 
         threading.Thread(target=self.cmd_vel_thread).start()
 
-    def callback(self, ros_data):
+    def __camera_callback(self, ros_data):
         np_arr = np.fromstring(ros_data.data, np.uint8)
         self.view = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-    def read_vel(self, data):
+    def __read_vel(self, data):
         self.vel = data
 
-    def read_sonar(self, data):
+    def __read_sonar(self, data):
         self.sonar = data.range
 
     def turn_off(self):
