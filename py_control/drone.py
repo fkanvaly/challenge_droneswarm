@@ -47,8 +47,6 @@ class Drone():
         #image subscriber
         self.view = np.zeros((360,640,3))
 
-        threading.Thread(target=self.cmd_vel_thread).start()
-
     def callback(self, ros_data):
         np_arr = np.fromstring(ros_data.data, np.uint8)
         self.view = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
@@ -63,6 +61,11 @@ class Drone():
         self.is_on = False
         self.stop()
         self.land()
+        self.cmd_thread.join()
+
+    def turn_on(self):
+        self.cmd_thread = threading.Thread(target=self.cmd_vel_thread)
+        self.cmd_thread.start()
 
     def cmd_vel_thread(self):
         while self.is_on:
@@ -71,7 +74,7 @@ class Drone():
                 if connections > 0:
                     self.vel_publisher.publish(self.cmd)
                 else:
-                    print("%s fail to publish %s/cmd_vel"%self.name)
+                    print("%s fail to publish %s/cmd_vel"%(self.name,self.name))
                 
     def get_vel(self):
         return self.vel
@@ -94,7 +97,7 @@ class Drone():
             self.is_flying = True
             print("%s takeoff cmd published"%self.name)
         else:
-            print("%s fail connect to %s/take_off"%self.name)
+            print("%s fail connect to %s/take_off"%(self.name,self.name))
                 
     def land(self):
         """
