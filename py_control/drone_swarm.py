@@ -7,7 +7,7 @@ class DroneSwarm():
     Class used to manager a drone swarm, allowing to drive each of the
     drones individually. The different command methods can either drive a
     single drone (by specifying the ``drone`` argument, an integer between
-    1 and the total number of drones, included), or the whole swarm (by leaving
+    0 and the total number of drones, excluded), or the whole swarm (by leaving
     ``drone`` to None).
     """
     drones_number = 5
@@ -29,10 +29,27 @@ class DroneSwarm():
         """
         Return a list of each drone view.
         """
+        return self.__swarm_get("view", drone)
+
+    def get_sonar(self, drone=None):
         if drone is None:
-            return [drone.view for drone in self.drones]
+            return [drone.sonar.range for drone in self.drones]
         else:
-            return self.drones[i].view
+            return self.drones[drone].sonar.range
+
+    def get_linear_velocity(self, drone=None):
+        convert = lambda v : [getattr(v.linear, c) for c in 'xyz']
+        if drone is None:
+            return [convert(d.vel) for d in self.drones]
+        else:
+            return convert(self.drones[drone].vel)
+
+    def get_angular_velocity(self, drone=None):
+        convert = lambda v : [getattr(v.angular, c) for c in 'xyz']
+        if drone is None:
+            return [convert(d.vel) for d in self.drones]
+        else:
+            return convert(self.drones[drone].vel)
 
     def turn_off(self, drone=None):
         self.__swarm_do("turn_off", drone)
@@ -48,11 +65,11 @@ class DroneSwarm():
 
     def set_linear_velocity(self, lv, drone=None):
         """lv is a array [v.x, v.y, v.z]"""
-        self.__swarm_do("linear_velocity", drone, lv)
+        self.__swarm_do("set_linear_velocity", drone, lv)
 
     def set_angular_velocity(self, av, drone=None):
         """av is a array [w.x, w.y, w.z]"""
-        self.__swarm_do("angular_velocity", drone, av)
+        self.__swarm_do("set_angular_velocity", drone, av)
 
     def up(self, speed, drone=None):
         self.__swarm_do("up", drone, speed)
@@ -60,8 +77,8 @@ class DroneSwarm():
     def down(self, speed, drone=None):
         self.__swarm_do("down", drone, speed)
 
-    def foreward(self, speed, drone=None):
-        self.__swarm_do("foreward", drone, speed)
+    def forward(self, speed, drone=None):
+        self.__swarm_do("forward", drone, speed)
 
     def backward(self, speed, drone=None):
         self.__swarm_do("backward", drone, speed)
@@ -88,6 +105,16 @@ class DroneSwarm():
                 getattr(drone, f)(*args, **kwargs)
         else:
             getattr(self.drones[drone_id], f)(*args, **kwargs)
+
+    def __swarm_get(self, attr, drone_id=None):
+        """
+        If drone_id is None then return the list of the drones ``attr``
+        attribute, else return the attribute of drone_id.
+        """
+        if drone_id is None:
+            return [getattr(drone, attr) for drone in self.drones]
+        else:
+            return getattr(self.drones[drone_id], attr)
 
 
 

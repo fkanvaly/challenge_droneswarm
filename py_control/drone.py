@@ -34,13 +34,18 @@ class Drone():
                                             CompressedImage, self.__camera_callback,  queue_size = 1)
         
         self.cmd = Twist()
-        self.cmd.linear.x = 0;  self.cmd.linear.y = 0;  self.cmd.linear.z = 0
-        self.cmd.angular.x = 0; self.cmd.angular.y = 0; self.cmd.angular.z = 0
+        self.cmd.linear.x = 0
+        self.cmd.linear.y = 0
+        self.cmd.linear.z = 0
+        self.cmd.angular.x = 0
+        self.cmd.angular.y = 0
+        self.cmd.angular.z = 0
         self.linearV_max = 100
         self.angularV_max = 100
 
         self.vel = Twist()
         self.sonar = Range()
+        self.sonar.range = 0
 
         self.is_flying = False
         self.is_on = True
@@ -129,7 +134,7 @@ class Drone():
         print('down(val=%d)' % speed)
         self.cmd.linear.z = - self.linearV_max * speed / 100
 
-    def foreward(self, speed):
+    def forward(self, speed):
         """Forward tells the drone to go forward. Pass in an int from 0-100."""
         print('forward(val=%d)' % speed)
         self.cmd.linear.x = self.linearV_max * speed / 100
