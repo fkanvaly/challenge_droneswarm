@@ -71,16 +71,15 @@ class Drone():
                 if connections > 0:
                     self.vel_publisher.publish(self.cmd)
                 else:
-                    print("%s fail to publish %s/cmd_vel"%self.name)
+                    print("Fail to publish %s/cmd_vel"%self.name)
                 
     def get_vel(self):
         return self.vel
 
-
     def stop(self):
         #set velocity to zero
-        self.cmd.linear.x = 0;  self.cmd.linear.y = 0;  self.cmd.linear.z = 0
-        self.cmd.angular.x = 0; self.cmd.angular.y = 0; self.cmd.angular.z = 0
+        self.set_linear_velocity([0, 0, 0])
+        self.set_angular_velocity([0, 0, 0])
 
     def take_off(self):
         """
@@ -92,9 +91,9 @@ class Drone():
         if connections > 0:
             self.takeoff_publisher.publish(Empty())
             self.is_flying = True
-            print("%s takeoff cmd published"%self.name)
+            print("%s takeoff cmd published" % self.name)
         else:
-            print("%s fail connect to %s/take_off"%self.name)
+            print("Fail connect to %s/take_off" % self.name)
                 
     def land(self):
         """
@@ -111,10 +110,14 @@ class Drone():
             print("%s fail to connect to %s/land"%self.name)
 
     def set_linear_velocity(self, v):
-        self.cmd.linear.x = v[0];  self.cmd.linear.y = v[1];  self.cmd.linear.z = v[2]
+        self.cmd.linear.x = v[0]
+        self.cmd.linear.y = v[1]
+        self.cmd.linear.z = v[2]
 
     def set_angular_velocity(self, v):
-        self.cmd.angular.x = v[0];  self.cmd.angular.y = v[1];  self.cmd.angular.z = v[2]
+        self.cmd.angular.x = v[0]
+        self.cmd.angular.y = v[1]
+        self.cmd.angular.z = v[2]
 
     def up(self, speed):
         """Up tells the drone to ascend. Pass in an int from 0-100."""
@@ -124,7 +127,7 @@ class Drone():
     def down(self, speed):
         """Down tells the drone to descend. Pass in an int from 0-100."""
         print('down(val=%d)' % speed)
-        self.cmd.linear.z = -self.linearV_max * speed / 100
+        self.cmd.linear.z = - self.linearV_max * speed / 100
 
     def foreward(self, speed):
         """Forward tells the drone to go forward. Pass in an int from 0-100."""
@@ -134,7 +137,7 @@ class Drone():
     def backward(self, speed):
         """Backward tells the drone to go in reverse. Pass in an int from 0-100."""
         print('backward(val=%d)' % speed)
-        self.cmd.linear.x = -self.linearV_max * speed / 100
+        self.cmd.linear.x = - self.linearV_max * speed / 100
 
     def right(self, speed):
         """Right tells the drone to go right. Pass in an int from 0-100."""
@@ -144,7 +147,7 @@ class Drone():
     def left(self, speed):
         """Left tells the drone to go left. Pass in an int from 0-100."""
         print('left(val=%d)' % speed)
-        self.cmd.linear.y = -self.linearV_max * speed / 100
+        self.cmd.linear.y = - self.linearV_max * speed / 100
 
     def clockwise(self, speed):
         """
