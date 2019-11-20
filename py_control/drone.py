@@ -10,6 +10,7 @@ import numpy as np
 
 from sensor_msgs.msg import CompressedImage
 from sensor_msgs.msg import Range
+from geometry_msgs.msg import Pose
 
 import threading
 
@@ -52,7 +53,7 @@ class Drone():
         #image subscriber
         self.view = np.zeros((360,640,3))
 
-    def callback(self, ros_data):
+    def __camera_callback(self, ros_data):
         np_arr = np.fromstring(ros_data.data, np.uint8)
         self.view = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
