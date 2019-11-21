@@ -35,7 +35,7 @@ Maintenant toutes les variables du système devraient être installées pour lan
 roslaunch sjtu_drone simple.launch
 ```
 
-# Controle sur python
+# Package python
 dans le dossier `py_control` se trouve le script qui permet de contrôler les drones. Nous avons fournis un notebook qui vous servira d'exemple d'utilisation du script.
 
 installation des packages python:
