@@ -16,6 +16,7 @@ import threading
 
 
 class Drone():
+    command_attempts = 3
 
     def __init__(self, i):
         self.name = "drone" + str(i)
@@ -29,6 +30,7 @@ class Drone():
         self.reset_publisher = rospy.Publisher("/drone%s/reset"%i, Empty, queue_size=1)
         
         """Initialise subscriber"""
+        rospy.Subscriber("/drone%s/gt_pose" % i, Pose, self.__read_pos)
         rospy.Subscriber("/drone%s/gt_vel"%i,Twist, self.__read_vel)
         rospy.Subscriber("/drone%s/sonar"%i, Range, self.__read_sonar)
         self.subscriber = rospy.Subscriber("/drone%s/front_camera/image_raw/compressed"%i,
@@ -44,9 +46,10 @@ class Drone():
         self.linearV_max = 100
         self.angularV_max = 100
 
+        self.position = [0, 0, 0]
+        self.orientation = [0, 0, 0, 0]
         self.vel = Twist()
-        self.sonar = Range()
-        self.sonar.range = 0
+        self.sonar = 0
 
         self.is_flying = False
         self.is_on = True
@@ -56,6 +59,11 @@ class Drone():
     def __camera_callback(self, ros_data):
         np_arr = np.fromstring(ros_data.data, np.uint8)
         self.view = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+    def __read_pos(self, data):
+        self.pose = data
+        self.position = [getattr(self.pose.position, c) for c in "xyz"]
+        self.orientation = [getattr(self.pose.orientation, c) for c in "xyzw"]
 
     def __read_vel(self, data):
         self.vel = data
@@ -81,6 +89,7 @@ class Drone():
                     self.vel_publisher.publish(self.cmd)
                 else:
                     print("%s fail to publish %s/cmd_vel"%(self.name,self.name))
+            time.sleep(0.1)
                 
     def get_vel(self):
         return self.vel
@@ -98,7 +107,8 @@ class Drone():
         """
         connections = self.takeoff_publisher.get_num_connections()
         if connections > 0:
-            self.takeoff_publisher.publish(Empty())
+            for i in range(self.command_attempts):
+                self.takeoff_publisher.publish(Empty())
             self.is_flying = True
             print("%s takeoff cmd published" % self.name)
         else:
@@ -112,11 +122,12 @@ class Drone():
         """
         connections = self.land_publisher.get_num_connections()
         if connections > 0:
-            self.land_publisher.publish(Empty())
+            for i in range(self.command_attempts):
+                self.land_publisher.publish(Empty())
             print("%s land cmd published"%self.name)
             self.is_flying=False
         else:
-            print("%s fail to connect to %s/land"%self.name)
+            print("%s fail to connect to %s/land"%(self.name, self.name))
 
     def set_linear_velocity(self, v):
         self.cmd.linear.x = v[0]
@@ -127,6 +138,7 @@ class Drone():
         self.cmd.angular.x = v[0]
         self.cmd.angular.y = v[1]
         self.cmd.angular.z = v[2]
+
 
     def up(self, speed):
         """Up tells the drone to ascend. Pass in an int from 0-100."""

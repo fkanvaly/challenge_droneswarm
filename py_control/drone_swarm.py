@@ -29,15 +29,12 @@ class DroneSwarm():
     
     def get_view(self, drone=None):
         """
-        Return a list of each drone view.
+        Return a list of each drone view, as np.ndarray.
         """
         return self.__swarm_get("view", drone)
 
     def get_sonar(self, drone=None):
-        if drone is None:
-            return [drone.sonar.range for drone in self.drones]
-        else:
-            return self.drones[drone].sonar.range
+        return self.__swarm_get("sonar", drone)
 
     def get_linear_velocity(self, drone=None):
         convert = lambda v : [getattr(v.linear, c) for c in 'xyz']
@@ -52,6 +49,18 @@ class DroneSwarm():
             return [convert(d.vel) for d in self.drones]
         else:
             return convert(self.drones[drone].vel)
+
+    def get_position(self, drone=None):
+        return self.__swarm_get("position", drone)
+
+    def get_orientation(self, drone=None):
+        """
+        Return the orientation as a quaternion.
+        """
+        return self.__swarm_get("orientation", drone)
+
+    def turn_on(self, drone=None):
+        self.__swarm_do("turn_on", drone)
 
     def turn_off(self, drone=None):
         self.__swarm_do("turn_off", drone)
@@ -120,4 +129,5 @@ class DroneSwarm():
 
 if __name__ == "__main__":
     swarm = DroneSwarm()
+    swarm.turn_on()
     swarm.take_off()
