@@ -9,6 +9,22 @@ Par defaut la version complete de ROS vient avec Gazebo. Il faut donc d'installe
 
 ## Compiler notre environnement et lancer la simulation
 
+
+<table>
+    <thead>
+        <tr>
+            <th align="center">level 1</th>
+            <th align="center">level 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><img src="img/level1.jpg"></td>
+            <td align="center"><img src="img/level2.jpg"></td>
+        </tr>
+    </tbody>
+</table>
+
 Une fois ROS installé, il suffira juste d'aller dans le dossier **simulation_ws** et compiler l'environnement.
 
 ```
@@ -32,9 +48,12 @@ Toujours dans le dossier **simulation_ws** entrer la commande:
 
 Maintenant toutes les variables du système devraient être installées pour lancer la simulation il vous reste juste à entrer:
 ```
-roslaunch sjtu_drone simple.launch
+roslaunch sjtu_drone level1.launch
 ```
-
+ou
+```
+roslaunch sjtu_drone level2.launch
+```
 # Package python
 
 installation des packages python:
