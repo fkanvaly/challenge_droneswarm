@@ -1,0 +1,6 @@
+<!-- Spawn a robot into Gazebo -->
+<launch>
+	<param name="parking_lot" command="$(find parking_lot)/urdf/teste.urdf" />
+	<node name="mygarage" pkg="gazebo_ros" type="spawn_model" output ="screen" args="-urdf -param garagem -model m2wr" />
+</launch>
+

@@ -1,0 +1,7 @@
+<launch>
+	<param name="parking_lot" command="cat '$(find parking_lot)/urdf/teste.urdf' " />
+	<node name="parking_lot" pkg="gazebo_ros" type="spawn_model" output="screen"
+		args="-urdf -param parking_lot -model m2wr" />
+
+</launch>
+
