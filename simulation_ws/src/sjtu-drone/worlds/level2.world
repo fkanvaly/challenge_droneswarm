@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sdf version="1.4">
+  <world name="default">
+     <scene>
+        <sky>
+            <sunset>20</sunset>
+        </sky>
+    </scene>
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone1</uri>
+      <pose>24 -1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone2</uri>
+      <pose>24 1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone3</uri>
+      <pose>26 1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone4</uri>
+      <pose>26 -1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone5</uri>
+      <pose>25 0 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://car1</uri>
+    </include>
+    
+    <include>
+      <uri>model://car2</uri>
+    </include>
+    
+    <include>
+      <uri>model://car3</uri>
+    </include>
+    
+    <include>
+      <uri>model://car4</uri>
+    </include>
+    
+    <include>
+      <uri>model://car5</uri>
+    </include>
+   
+       <include>
+      <uri>model://car6</uri>
+    </include>
+    
+    <include>
+      <uri>model://car7</uri>
+    </include>
+    
+    <include>
+      <uri>model://car8</uri>
+    </include>
+    
+        
+    <include>
+      <uri>model://victim1</uri>
+    </include>
+    
+   <include>
+      <uri>model://victim2</uri>
+    </include>
+    
+    <include>
+      <uri>model://person1</uri>
+    </include>
+  </world>
+</sdf>

@@ -1,0 +1,100 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <scene>
+        <sky>
+            <sunset>20</sunset>
+        </sky>
+    </scene>
+    <!-- A global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- A ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <population name="desperate_masses">
+      <model name="survivor">
+        <include>
+          <static>true</static>
+          <uri>model://person_standing</uri>
+        </include>
+      </model>
+      <pose>0 0 0 0 0 0</pose>
+       <box>
+        <size>100 100 0.01</size>
+      </box>
+      <model_count>10</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+    </population>
+
+    <population name="victim">
+      <model name="victim">
+        <include>
+          <static>true</static>
+          <uri>model://victim1</uri>
+        </include>
+      </model>
+      <pose>0 0 0 0 0 0</pose>
+       <box>
+        <size>90 90 0.01</size>
+      </box>
+      <model_count>10</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+    </population>
+
+    <population name="car">
+      <model name="car">
+        <include>
+          <static>true</static>
+          <uri>model://car1</uri>
+        </include>
+      </model>
+      <pose>0 0 0 0 0 0</pose>
+       <box>
+        <size>90 90 0.01</size>
+      </box>
+      <model_count>10</model_count>
+      <distribution>
+        <type>uniform</type>
+      </distribution>
+    </population>
+
+    <include>
+      <uri>model://wall</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone1</uri>
+      <pose>24 -1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone2</uri>
+      <pose>24 1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone3</uri>
+      <pose>26 1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone4</uri>
+      <pose>26 -1 1 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://sjtu_drone5</uri>
+      <pose>25 0 1 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

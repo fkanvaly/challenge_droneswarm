@@ -14,26 +14,35 @@ if __name__ == "__main__":
     swarm.take_off()
     print("Décollage\n")
 
-    for t in range(10):
-        print("Altitudes : " + ", ".join("%0.1f" % p[2]
+    print("Altitudes : " + ", ".join("%0.1f" % p[2]
                                          for p in swarm.get_position()))
-        sleep(1)
+    sleep(1)
 
-    swarm.set_angular_velocity([0, 0, 10])
-    print("\nRotation")
-    
-    for t in range(5):
-        print("Orientations : ", swarm.get_orientation())
-        sleep(1)
+    speed= 5
+    swarm.up(speed)
+    sleep(1); swarm.stop(); sleep(1)
 
-    print()
+    speed= 10
+    swarm.forward(speed)
+    sleep(10); swarm.stop();sleep(1)
 
-    for i in range(swarm.drones_number):
-        swarm.land(i)
-        print("%s atterrit" % i)
-        sleep(1)
+    speed= 10
+    swarm.clockwise(speed)
+    sleep(2); swarm.stop(); sleep(1)
 
-    sleep(10)
+    speed= 10
+    swarm.forward(speed)
+    sleep(10); swarm.stop()
+
+    start=time()
+    while(time()-start<10):
+        t=time()
+        swarm.set_linear_velocity([5, 0, 0])
+        swarm.set_angular_velocity([0,0, np.cos(t)])
+        
+    swarm.stop()
+
+    swarm.land()
 
     # Nécessaire pour stopper les threads de commande des drones
     swarm.turn_off()

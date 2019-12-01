@@ -1,8 +1,0 @@
-__pycache__
-.vscode
-.ipynb_checkpoints
-build
-devel
-logs
-env
-.catkin_tools
